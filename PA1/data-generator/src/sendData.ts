@@ -63,6 +63,26 @@ const sendData = async () => {
       needsAssistance: faker.datatype.boolean()
     },
     {
+      name: "Car@ct&r",
+      surname: faker.name.lastName(),
+      ci: ciList[1],
+      tel: "097665534",
+      dept: faker.datatype.boolean()
+        ? dptoList[15]
+        : "Algo",
+      needsAssistance: faker.datatype.boolean()
+    },
+    {
+      name: faker.name.firstName(),
+      surname: "E#tr4ñ0",
+      ci: ciList[1],
+      tel: "097665534",
+      dept: faker.datatype.boolean()
+        ? dptoList[15]
+        : "Algo",
+      needsAssistance: faker.datatype.boolean()
+    },
+    {
       name: faker.name.firstName(),
       surname: faker.name.lastName(),
       ci: ciList[11],

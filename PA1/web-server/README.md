@@ -1,10 +1,9 @@
 # Comandos importantes
-Agregar librería server-pipelines: 
-    npm install ..\server-pipelines --save
-
+Descargar dependencias: 
+    npm i
 Compilar clase: 
     npm run build
 Ejecutar clase: 
-    node dist\server.js
+    npx ts-node .\src\server.ts
 Debuggear clase: 
     Abrir server.js y debuggear con VSCode

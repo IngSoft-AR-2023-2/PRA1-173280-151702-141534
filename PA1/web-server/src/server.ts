@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { QueueFactory } from './pipeline/QueueFactory';
 import { Pipeline } from './pipeline/Pipeline';
-import { validarCedula } from './filters/filters';
+import { validateFirstNameLastNameFilter, validarCedula, printNeedsAssistance } from './filters/filters';
 import { CustomData } from './data-structure/CustomData';
 require('dotenv').config();
 
@@ -11,17 +11,17 @@ const queueFactory = QueueFactory.getQueueFactory<CustomData>; //ojo que no la i
 
 // Crear una nueva instancia de Pipeline usando Bull como backend de la cola
 //console.log("Voy a llamar al Pipeline")
-const pipeline = new Pipeline<CustomData>([validarCedula], queueFactory);
+const pipeline = new Pipeline<CustomData>([validateFirstNameLastNameFilter, validarCedula, printNeedsAssistance], queueFactory);
 //console.log("Sali del pipeline")
 
 //se crea el listener para cuando un job termina
 pipeline.on('finalOutput', (output) => {
-  console.log(`Salida final del PIPELINE: ${output.data}`);
+  console.log(`Salida final del PIPELINE: ${JSON.stringify(output)}`);
 });
 
 //se crea el listener para cuando un job da error
 pipeline.on('errorInFilter', (error, data) => {
-  console.error(`Error en el filtro: ${error}, Datos: ${data.data}`);
+  console.error(`Error en el filtro: ${error}, Datos: ${JSON.stringify(data)}`);
 });
 const app: Express = express();
 const port: number = 3000;
@@ -31,10 +31,10 @@ app.use(express.json());
 app.post('/users', (req: Request, res: Response) => {
   console.log('Received data. Using body:', req.body);
   //data must be a string
-  let dataToProcess: CustomData = req.body
+  let dataToProcess: CustomData = req.body;
   pipeline.processInput(dataToProcess);
 
-  res.status(201).send({ message: 'Agendado en el pipeline', user: req.body });
+  res.status(200).send({ message: 'Agendado en el pipeline', data: req.body });
 });
 
 app.listen(port, () => {
