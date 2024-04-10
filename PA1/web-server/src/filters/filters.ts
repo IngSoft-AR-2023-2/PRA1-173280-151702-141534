@@ -20,6 +20,19 @@ export const validarCedula = (input: CustomData): CustomData => {
     return input;
 };
 
+// Filtro 3
+export const validarDepto = (input: CustomData): CustomData => {
+    let result: string = "";   
+    const dptoList = ["Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno", "Flores", "Florida", "Lavalleja",
+    "Maldonado", "Montevideo", "Paysandú", "Río Negro", "Rivera", "Rocha", "Salto", "San José", "Soriano", "Tacuarembó",
+    "Treinta y Tres"];
+    const depto: string =input.dept;
+    if (dptoList.includes(depto)) {
+        return input;
+    } else {
+        throw new Error ("El departamento " + depto + "NO es valido");
+    }
+}
 // FILTRO 4
 export const printNeedsAssistance = (input: CustomData): CustomData => {
     if (input.needsAssistance)
