@@ -31,10 +31,10 @@ app.use(express.json());
 app.post('/users', (req: Request, res: Response) => {
   console.log('Received data. Using body:', req.body);
   //data must be a string
-  let dataToProcess: CustomData = { data: req.body.name }
+  let dataToProcess: CustomData = req.body
   pipeline.processInput(dataToProcess);
 
-  res.status(201).send({ message: 'Agendado en el pipeline', user: req.body.name });
+  res.status(201).send({ message: 'Agendado en el pipeline', user: req.body });
 });
 
 app.listen(port, () => {
