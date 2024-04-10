@@ -1,7 +1,6 @@
 import { BullQueueAdapter } from '../queues-providers/BullQueueAdapter';
 import { RabbitMQQueueAdapter } from '../queues-providers/RabbitQueueAdapter';
 import { IQueue } from '../queues-providers/IQueue';
-import dotenv from 'dotenv'
 
 
 export class QueueFactory {

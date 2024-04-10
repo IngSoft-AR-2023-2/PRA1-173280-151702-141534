@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { QueueFactory } from './pipeline/QueueFactory';
 import { Pipeline } from './pipeline/Pipeline';
-import { toLowercaseWithSpaces, toUppercase, replaceSpacesWithDots, filterWithRandomError, addHolaBruno } from './filters/filters';
+import { validarCedula } from './filters/filters';
 import { CustomData } from './data-structure/CustomData';
 require('dotenv').config();
 
@@ -11,7 +11,7 @@ const queueFactory = QueueFactory.getQueueFactory<CustomData>; //ojo que no la i
 
 // Crear una nueva instancia de Pipeline usando Bull como backend de la cola
 //console.log("Voy a llamar al Pipeline")
-const pipeline = new Pipeline<CustomData>([toLowercaseWithSpaces, filterWithRandomError, toUppercase, replaceSpacesWithDots, addHolaBruno], queueFactory);
+const pipeline = new Pipeline<CustomData>([validarCedula], queueFactory);
 //console.log("Sali del pipeline")
 
 //se crea el listener para cuando un job termina
