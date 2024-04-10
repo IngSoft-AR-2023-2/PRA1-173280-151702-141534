@@ -29,7 +29,7 @@ const port: number = 3000;
 app.use(express.json());
 
 app.post('/users', (req: Request, res: Response) => {
-  console.log('Received data. Using name:', req.body.name);
+  console.log('Received data. Using body:', req.body);
   //data must be a string
   let dataToProcess: CustomData = { data: req.body.name }
   pipeline.processInput(dataToProcess);
