@@ -3,6 +3,7 @@ import { QueueFactory } from './pipeline/QueueFactory';
 import { Pipeline } from './pipeline/Pipeline';
 import { validateFirstNameLastNameFilter, validarCedula, validarDepto,printNeedsAssistance } from './filters/filters';
 import { CustomData } from './data-structure/CustomData';
+import { randomInt } from 'crypto';
 require('dotenv').config();
 
 //console.log("Voy a llamar al QueFactory")
@@ -30,12 +31,28 @@ app.use(express.json());
 
 app.post('/users', (req: Request, res: Response) => {
   console.log('Received data. Using body:', req.body);
-  //data must be a string
-  let dataToProcess: CustomData = req.body;
-  pipeline.processInput(dataToProcess);
 
-  res.status(200).send({ message: 'Agendado en el pipeline', data: req.body });
+  let dataToProcess: CustomData = req.body;
+  if (tieneCamposVacios(dataToProcess))
+    res.status(400).send({ message: 'Error por datos vacíos. Por favor, revise su input.' });
+  else
+  {
+    pipeline.processInput(dataToProcess);
+    res.status(200).send({ message: 'Agendado en el pipeline', data: req.body });
+  }
 });
+
+function tieneCamposVacios(objeto: { [key: string]: any }): boolean {
+  for (const clave in objeto) {
+      if (objeto.hasOwnProperty(clave)) {
+          if (objeto[clave] === "" || objeto[clave] === null) {
+              return true; // Si se encuentra un campo vacío, retorna true
+          }
+      }
+  }
+  return false; // Si no se encontraron campos vacíos, retorna false
+}
+
 
 app.listen(port, () => {
   console.log(`API listening at http://localhost:${port}`);

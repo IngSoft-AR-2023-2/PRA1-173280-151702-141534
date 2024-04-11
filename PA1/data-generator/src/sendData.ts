@@ -83,6 +83,34 @@ const sendData = async () => {
       needsAssistance: faker.datatype.boolean()
     },
     {
+      name: "",
+      surname: "Eaaaaa",
+      ci: ciList[2],
+      tel: "097665534",
+      dept: faker.datatype.boolean()
+        ? dptoList[14]
+        : "Algo",
+      needsAssistance: faker.datatype.boolean()
+    },
+    {
+      name: "",
+      surname: "Vacio",
+      ci: ciList[3],
+      tel: null,
+      dept: faker.datatype.boolean()
+        ? dptoList[3]
+        : "Algo",
+      needsAssistance: faker.datatype.boolean()
+    },
+    {
+      name: null,
+      surname: null,
+      ci: null,
+      tel: null,
+      dept: null,
+      needsAssistance: null
+    },
+    {
       name: faker.name.firstName(),
       surname: faker.name.lastName(),
       ci: ciList[11],
@@ -94,29 +122,29 @@ const sendData = async () => {
     }
   ];
 
-  try {
-    for (let i = 0; i < usersData.length; i++) {
-      const element = usersData[i];
-      const response = await axios.post('http://localhost:3000/users', element);
-      console.log('Data sent successfully:', response.data);
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        // La solicitud se realizó y el servidor respondió con un código de estado
-        // que cae fuera del rango de 2xx
-        console.error('Error response data:', error.response.data);
-        console.error('Error response status:', error.response.status);
-      } else if (error.request) {
-        // La solicitud se hizo pero no se recibió respuesta
-        console.error('Error request:', error.request);
+  for (let i = 0; i < usersData.length; i++) {
+    try {
+        const element = usersData[i];
+        const response = await axios.post('http://localhost:3000/users', element);
+        console.log(`Se ha iniciado el proceso de agenda para la persona ${element.name} ${element.surname}.`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // La solicitud se realizó y el servidor respondió con un código de estado
+          // que cae fuera del rango de 2xx
+          console.error('Error response data:', error.response.data);
+          console.error('Error response status:', error.response.status);
+        } else if (error.request) {
+          // La solicitud se hizo pero no se recibió respuesta
+          console.error('Error request:', error.request);
+        } else {
+          // Algo más causó el error
+          console.error('Error message:', error.message);
+        }
       } else {
-        // Algo más causó el error
-        console.error('Error message:', error.message);
+        // Error no relacionado con Axios
+        console.error('Error:', error);
       }
-    } else {
-      // Error no relacionado con Axios
-      console.error('Error:', error);
     }
   }
 };

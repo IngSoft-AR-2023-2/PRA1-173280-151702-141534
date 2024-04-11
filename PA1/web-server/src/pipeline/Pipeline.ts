@@ -24,15 +24,11 @@ export class Pipeline<T> extends EventEmitter {
     // setupQueues configura una cola para cada filtro utilizando la función factory proporcionada.
     private setupQueues(queueFactory: (name: string) => IQueue<T>): void {
         // Itera sobre cada filtro y su índice.
-        console.log("Estoy en el setupQueue")
         this.filters.forEach((filter, index) => {
             // Crea un nombre único para la cola basado en el índice del filtro.
             const queueName = `filter-queue-${index}`;
-            console.log(queueName)
             // Usa la función factory para crear una nueva cola.
-            console.log("Voy a crear el Filter Queue")
             const filterQueue = queueFactory(queueName);
-            console.log("Cree el Filter Queue")
             // Añade el filtro y su cola al arreglo filterQueues.
             this.filterQueues.push({ filter, queue: filterQueue });
 

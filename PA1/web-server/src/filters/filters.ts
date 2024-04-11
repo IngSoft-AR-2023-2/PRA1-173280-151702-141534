@@ -30,7 +30,7 @@ export const validarDepto = (input: CustomData): CustomData => {
     if (dptoList.includes(depto)) {
         return input;
     } else {
-        throw new Error ("El departamento " + depto + "NO es valido");
+        throw new Error ("El departamento " + depto + " NO es valido");
     }
 }
 // FILTRO 4
